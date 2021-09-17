@@ -17,6 +17,7 @@ public class Main {
         System.out.println("    - unlock (u)");
         System.out.println("    - lock (l)");
         System.out.println("    - break (b)");
+        System.out.println("    - tick (t) [(optional) number of ticks]");
         System.out.println();
         System.out.println("----------------------");
         System.out.println();
@@ -45,7 +46,18 @@ public class Main {
                 case "break":
                     stop = true;
                 default:
-                    cas.tick();
+                    if (command.startsWith("t") || command.startsWith("tick")) {
+                        String[] commands = command.split(" ");
+                        if (commands.length == 1) {
+                            cas.tick();
+                        } else if (commands.length == 2) {
+                            cas.tick(Integer.parseInt(commands[1]));
+                        } else {
+                            System.out.println("Number of arguments was not recognized, try \"tick [integer]\"");
+                        }
+                    } else {
+                        cas.tick();
+                    }
             }
             cas.printStates();
         }

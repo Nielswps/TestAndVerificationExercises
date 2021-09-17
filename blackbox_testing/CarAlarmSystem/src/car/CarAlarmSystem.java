@@ -79,9 +79,13 @@ public class CarAlarmSystem implements ICarAlarmSystem {
 
     @Override
     public void tick() {
-        clock_armed++;
-        clock_sound++;
-        clock_flash++;
+        tick(1);
+    }
+
+    public void tick(int ticks) {
+        clock_armed += ticks;
+        clock_sound += ticks;
+        clock_flash += ticks;
 
         if (clock_armed == 2 && closed && locked) {
             armed = true;
