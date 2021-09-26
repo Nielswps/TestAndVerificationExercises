@@ -1,5 +1,7 @@
 package car;
 
+import java.util.ArrayList;
+
 public class CarAlarmSystem implements ICarAlarmSystem {
     private boolean closed = false;
     private boolean locked = false;
@@ -83,19 +85,25 @@ public class CarAlarmSystem implements ICarAlarmSystem {
     }
 
     public void tick(int ticks) {
-        clock_armed += ticks;
-        clock_sound += ticks;
-        clock_flash += ticks;
+        for(int i = 0; i < ticks; i++) {
+            clock_armed += 1;
+            clock_sound += 1;
+            clock_flash += 1;
 
-        if (clock_armed == 2 && closed && locked) {
-            armed = true;
+            if (clock_armed == 2 && closed && locked) {
+                armed = true;
+            }
+            if (sound && clock_sound == 3) {
+                sound = false;
+            }
+            if (flash && clock_flash == 30) {
+                flash = false;
+            }
         }
-        if (sound && clock_sound == 3) {
-            sound = false;
-        }
-        if (flash && clock_flash == 30) {
-            flash = false;
-        }
+    }
+
+    public int[] getClocks() {
+        return new int[] {clock_armed, clock_sound, clock_flash};
     }
 
     public void printStates() {

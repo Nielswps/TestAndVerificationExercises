@@ -22,9 +22,8 @@ public class Main {
         System.out.println("----------------------");
         System.out.println();
 
-        while (!stop) {
-            String command = reader.readLine();
-
+        String command;
+        while ((command = reader.readLine()) != null && !stop) {
             switch (command) {
                 case "o":
                 case "open":
@@ -51,7 +50,20 @@ public class Main {
                         if (commands.length == 1) {
                             cas.tick();
                         } else if (commands.length == 2) {
-                            cas.tick(Integer.parseInt(commands[1]));
+                            try{
+                                int tickSteps = Integer.parseInt(commands[1]);
+
+                                if (tickSteps > 1000) {
+                                    System.out.println("The maximum number of steps allowed is 1000, received: " + tickSteps + ". 1000 steps will be taken instead.\n\n");
+                                    tickSteps = 1000;
+                                }
+
+                                cas.tick(tickSteps);
+                            } catch (NumberFormatException e) {
+                                System.out.println("Number of ticks is not an integer\n\n");
+                                continue;
+                            }
+
                         } else {
                             System.out.println("Number of arguments was not recognized, try \"tick [integer]\"");
                         }
